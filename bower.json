@@ -1,0 +1,22 @@
+{
+  "name": "pokethon",
+  "authors": [
+    "Alysson Tiago <autscc@gmail.com>"
+  ],
+  "description": "Project VanHackathon Pokéapi Battle",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.4",
+    "angular-ui-router": "~0.3.0",
+    "ui-router-extras": "~0.1.2",
+    "angular": "~1.5.5"
+  }
+}
