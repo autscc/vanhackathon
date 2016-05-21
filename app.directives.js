@@ -1,1 +1,7 @@
-var app = angular.module('pokethon.diretivas',[]);
+
+
+	'use strict';
+
+	/*Directives of application*/
+	angular.module('pokethon.directives',[]);
+

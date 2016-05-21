@@ -1,1 +1,7 @@
-var app = angular.module('pokethon.filters',[]);
+
+
+	'use strict';
+
+	/*Filters of application*/
+	angular.module('pokethon.filters',[]);
+
