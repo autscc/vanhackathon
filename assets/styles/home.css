@@ -1,0 +1,77 @@
+body {
+    min-height: 100%;
+    min-width : 100%;
+    top:0;
+    bottom:0;
+    position:absolute;
+}
+
+.searchArea {
+    width : 100%;
+    top:0;
+    bottom : 0;
+    position : absolute;
+    background-image : url("http://orig01.deviantart.net/ada4/f/2012/030/7/f/battle_bases_01bg_hd_by_xalien95-d4o49yb.png");
+    background-repeat : no-repeat;
+    background-position : 0% 20%;
+}
+
+.arenaArea {
+    width : 100%;
+    bottom:0;
+
+    position:absolute;
+    background-color : #8CEB8D;
+    background-image : url("http://vignette3.wikia.nocookie.net/pokemon/images/4/4c/Pokeball.png/revision/latest?cb=20160208145309&path-prefix=pt");
+    background-repeat : no-repeat;
+    background-position : 50% 50%;
+}
+
+#inputSearchPokemon {
+    margin : 0 auto;
+}
+
+#listSearchPokemon {
+    position : absolute;
+    width : 90%;
+    margin : 0 auto;
+    cursor : pointer;
+    z-index : 999;
+}
+
+#buttonSearchPokemon {
+    margin-left : 20px;
+}
+
+#boxSelectedPokemons {
+    margin-top : 50px;
+}
+
+.boxPokemon {
+    width : 25%;
+    padding-bottom : 20px;
+    border-radius : 2px;
+}
+
+.boxPokemonBattle {
+    margin-top : 15px;
+}
+
+.playerPokemons {
+    background-color : #3399FF;
+    color : #FFF;
+}
+
+.enemyPokemons {
+    background-color : #FF0000;
+    color : #FFF;
+}
+
+.notSelected {
+    background-color : #000;
+    color : #FFF;
+}
+
+.winner {
+    border : 2px solid green;
+}
