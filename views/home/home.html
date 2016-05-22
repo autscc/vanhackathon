@@ -1,7 +1,239 @@
-<div class="alert alert-success" role="alert" data-ng-controller="HomeController as vm" data-ng-init="vm.init()"> 
-	<strong>Pokethon</strong> You successfully read this important alert message. 
-</div>
+<style media="screen">
+    body {
+        min-height: 100%;
+        min-width : 100%;
+        top:0;
+        bottom:0;
+        position:absolute;
+    }
 
-<span class="label label-success">Success </span>
+    .searchArea {
+        height: 50%;
+        width : 100%;
+        top:0;
+        bottom : 0;
+        position : absolute;
+		background-image : url("http://orig01.deviantart.net/ada4/f/2012/030/7/f/battle_bases_01bg_hd_by_xalien95-d4o49yb.png");
+		background-repeat : no-repeat;
+		background-position : 0% 20%;
+    }
 
+    .arenaArea {
+        height : 50%;
+        width : 100%;
+        bottom:0;
+        position:absolute;
+		background-color : #8CEB8D;
+		background-image : url("http://vignette3.wikia.nocookie.net/pokemon/images/4/4c/Pokeball.png/revision/latest?cb=20160208145309&path-prefix=pt");
+		background-repeat : no-repeat;
+		background-position : 50% 50%;
+    }
+
+    #inputSearchPokemon {
+        margin : 0 auto;
+    }
+
+	#listSearchPokemon {
+		position : absolute;
+		width : 90%;
+		margin : 0 auto;
+		cursor : pointer;
+		z-index : 999;
+	}
+
+    #buttonSearchPokemon {
+        margin-left : 20px;
+    }
+
+    #boxSelectedPokemons {
+        margin-top : 50px;
+    }
+
+    .boxPokemon {
+        width : 25%;
+		padding-bottom : 20px;
+		border-radius : 2px;
+    }
+
+    .boxPokemonBattle {
+		margin-top : 15px;
+    }
+
+	.playerPokemons {
+		background-color : #3399FF;
+		color : #FFF;
+	}
+
+	.enemyPokemons {
+		background-color : #FF0000;
+		color : #FFF;
+	}
+
+	.notSelected {
+		background-color : #000;
+		color : #FFF;
+	}
+
+    .winner {
+        border : 2px solid green;
+    }
+</style>
+
+<div class = "container-fluid" ng-controller = "HomeController as vm" ng-init = "vm.init()">
+    <div class = "row searchArea">
+		<div ng-show = "vm.gameState === 'search'">
+
+			<div class="col-md-12">
+				<h3 style = "text-align : center; margin-top : 20px;">Pokéthon</h3>
+			</div>
+
+	        <div class = "col-md-10 col-md-offset-1" style = "margin-top : 40px;">
+	            <form style = "text-align : center;">
+	                <div class="form-group">
+	                    <input type="text"
+								class="form-control"
+								id="inputSearchPokemon"
+								placeholder="Search for awesome pokémons"
+								ng-model = "vm.textFilter"
+								ng-disabled = "vm.disableSearch">
+
+						<ul id = "listSearchPokemon" class="list-group" ng-show = "vm.textFilter">
+							<li class = "list-group-item"
+								ng-repeat = "pokemon in vm.listPokemons | filter : vm.textFilter | limitTo: 5"
+								ng-click = "vm.selectPokemon(pokemon)">
+									{{pokemon.name}}
+							</li>
+						</ul>
+	                </div>
+	            </form>
+
+	            <div class="col-md-12">
+	                <div class = "col-md-12" id="boxSelectedPokemons">
+	                    <div class="media boxPokemon"
+								style = "float : left"
+								ng-class = "{'notSelected' : vm.playerPokemons[0] === undefined, 'playerPokemons' : vm.playerPokemons[0]}">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.playerPokemons[0] ? vm.playerPokemons[0].sprites.back_default : 'http://www.icon100.com/up/2830/96/ic_question_mark.png'}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.playerPokemons[0] ? vm.playerPokemons[0].name : '???????'}}</h3>
+								<span>{{vm.playerPokemons[0] ? vm.playerPokemons[0].types[0].type.name : '????'}}</span>
+							</div>
+	                    </div>
+	                    <div class="media boxPokemon playerPokemons"
+								style = "float : right; margin-top : 0px;"
+								ng-class = "{'notSelected' : vm.playerPokemons[2] === undefined, 'playerPokemons' : vm.playerPokemons[2]}">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.playerPokemons[2] ? vm.playerPokemons[2].sprites.back_default : 'http://www.icon100.com/up/2830/96/ic_question_mark.png'}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.playerPokemons[2] ? vm.playerPokemons[2].name : '???????'}}</h3>
+								<span>{{vm.playerPokemons[2] ? vm.playerPokemons[2].types[0].type.name : '????'}}</span>
+							</div>
+	                    </div>
+	                    <div class="media boxPokemon playerPokemons"
+								style = "margin : 0 auto;"
+								ng-class = "{'notSelected' : vm.playerPokemons[1] === undefined, 'playerPokemons' : vm.playerPokemons[1]}">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.playerPokemons[1] ? vm.playerPokemons[1].sprites.back_default : 'http://www.icon100.com/up/2830/96/ic_question_mark.png'}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.playerPokemons[1] ? vm.playerPokemons[1].name : '???????'}}</h3>
+								<span>{{vm.playerPokemons[1] ? vm.playerPokemons[1].types[0].type.name : '????'}}</span>
+							</div>
+	                    </div>
+	                </div>
+	            </div>
+
+				<div class="col-md-12" style = "margin-top : 50px;" ng-show = "vm.playerPokemons.length === 3 && vm.enemyPokemons.length === 3">
+					<button type="button" class="btn btn-danger center-block" ng-click = "vm.startBattle()">Catch 'em All</button>
+				</div>
+			</div>
+        </div>
+    </div>
+
+    <div class="row arenaArea">
+		<div ng-show = "vm.gameState === 'battle'">
+
+	        <div class="col-md-12">
+				<div class="col-md-6" style = "text-align : center; margin-top : 20px;">
+					0
+				</div>
+				<div class="col-md-6" style = "text-align : center; margin-top : 20px;">
+					0
+				</div>
+	        </div>
+
+			<div class="col-md-12">
+				<div class="col-md-6">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="media boxPokemonBattle playerPokemons">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.playerPokemons[0].sprites.back_default}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.playerPokemons[0].name}}</h3>
+								<span>{{vm.playerPokemons[0].types[0].type.name}}</span>
+							</div>
+	                    </div>
+						<div class="media boxPokemonBattle playerPokemons">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.playerPokemons[1].sprites.back_default}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.playerPokemons[1].name}}</h3>
+								<span>{{vm.playerPokemons[1].types[0].type.name}}</span>
+							</div>
+	                    </div>
+						<div class="media boxPokemonBattle playerPokemons">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.playerPokemons[2].sprites.back_default}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.playerPokemons[2].name}}</h3>
+								<span>{{vm.playerPokemons[2].types[0].type.name}}</span>
+							</div>
+	                    </div>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="media boxPokemonBattle enemyPokemons">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.enemyPokemons[0].sprites.back_default}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.enemyPokemons[0].name}}</h3>
+								<span>{{vm.enemyPokemons[0].types[0].type.name}}</span>
+							</div>
+	                    </div>
+						<div class="media boxPokemonBattle enemyPokemons">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.enemyPokemons[1].sprites.back_default}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.enemyPokemons[1].name}}</h3>
+								<span>{{vm.enemyPokemons[1].types[0].type.name}}</span>
+							</div>
+	                    </div>
+						<div class="media boxPokemonBattle enemyPokemons">
+							<div class="media-left">
+								<img class = "media-object" src="{{vm.enemyPokemons[2].sprites.back_default}}" />
+							</div>
+							<div class="media-body">
+								<h3>{{vm.enemyPokemons[2].name}}</h3>
+								<span>{{vm.enemyPokemons[2].types[0].type.name}}</span>
+							</div>
+	                    </div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-12" style = "margin-top : 20px;">
+				<button type="button" class="btn btn-success center-block">Battle!</button>
+			</div>
+
+		</div>
+    </div>
 </div>
