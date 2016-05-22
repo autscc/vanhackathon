@@ -22,7 +22,7 @@
 	    'pokethon.homeController'
 	])
 
-	.config(function($stateProvider,$urlRouterProvider) {  
+	.config(function($stateProvider,$urlRouterProvider) {
 
 	  $urlRouterProvider.otherwise("/");
 
