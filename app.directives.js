@@ -1,7 +1,6 @@
 	'use strict';
 
 	/*Directives of application*/
-<<<<<<< HEAD
 	angular.module('pokethon.directives',[])
 
 	/*Criando diretiva padrão para exibição e ocultação de DIV com spinner*/
@@ -20,6 +19,4 @@
 	    };
 	});
 
-=======
-	angular.module('pokethon.directives',[]);
->>>>>>> acf00382a13679055b4270d663f60f1e1f11f28b
+
