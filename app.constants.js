@@ -1,8 +1,13 @@
-var app = angular.module('pokethon.constants',[]);
 
-app.constant('PokethonConstants',{
 
-	hostLocal: 'http://localhost:8080/',
-	hostRemote:''
+	'use strict';
 
-});
+	angular.module('pokethon.constants',[])
+
+	/*Constants of application*/
+	.constant('PokethonConstants',{
+
+		hostRemote:'http://pokeapi.co/api/v2/',
+
+	});
+
