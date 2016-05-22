@@ -10,9 +10,9 @@ angular.module('pokethon.homeController', [])
 .controller('HomeController', HomeController);
 
 
-HomeController.$inject = ['PokethonService','$scope'];
+HomeController.$inject = ['PokethonService','$scope', '$interval'];
 
-function HomeController(PokethonService, $scope) {
+function HomeController(PokethonService, $scope, $interval) {
 
     var vm = this;
 
@@ -23,21 +23,28 @@ function HomeController(PokethonService, $scope) {
     vm.pokemon = {};
 
     vm.gameState = 'search';
+    vm.battleState = 'battle';
 
     vm.playerPokemons = [];
     vm.enemyPokemons = [];
 
-    /**
-     * @ngdoc function
-     * @name Trigueiro Neto
-     * @description Method declarations
-     *
-     *
-     */
+    vm.battleButtonValue = 'Battle!';
+
+    vm.score = {
+        player : 0,
+        enemy : 0
+    }
+    vm.message = {
+        player : '',
+        enemy : ''
+    }
+
 
     vm.init = init;
     vm.selectPokemon = selectPokemon;
     vm.startBattle = startBattle;
+    vm.battleButtonAction = battleButtonAction;
+
 
 
     function init() {
@@ -74,12 +81,6 @@ function HomeController(PokethonService, $scope) {
         });
     }
 
-    function startBattle() {
-        if(vm.playerPokemons.length === 3 && vm.enemyPokemons.length === 3) {
-            vm.gameState = 'battle';
-        }
-    }
-
     function generateEnemyPokemons() {
         for(var i = 0; i < 3; i++) {
             var aux = {};
@@ -95,6 +96,81 @@ function HomeController(PokethonService, $scope) {
                 });
             }
         }
+    }
+
+    function startBattle() {
+        if(vm.playerPokemons.length === 3 && vm.enemyPokemons.length === 3) {
+            vm.gameState = 'battle';
+        }
+    }
+
+    function battleButtonAction() {
+        if(vm.battleState === 'battle') {
+            battle();
+            vm.battleState = 'new';
+        } else {
+            restartGame();
+        }
+    }
+
+    function battle() {
+        for(var i = 0; i < 3; i++) {
+            var playerPokemonScore = Math.floor((Math.random() * 100));
+            var enemyPokemonScore = Math.floor((Math.random() * 100));
+
+            isWinner(vm.playerPokemons[i], playerPokemonScore, vm.enemyPokemons[i], enemyPokemonScore);
+        }
+
+        if(vm.score.player > vm.score.enemy) {
+            vm.message.player = 'Winner';
+        } else if(vm.score.player < vm.score.enemy) {
+            vm.message.enemy = 'Winner';
+        } else {
+            vm.message.player = 'Tie';
+            vm.message.enemy = 'Tie';
+        }
+
+        vm.battleButtonValue = 'New Battle';
+    }
+
+    function isWinner(playerPokemon, playerPokemonScore, enemyPokemon, enemyPokemonScore) {
+        if(playerPokemonScore === enemyPokemonScore) {
+            vm.score.player++;
+            vm.score.enemy++;
+        } else if(playerPokemonScore > enemyPokemonScore) {
+            vm.score.player++;
+            playerPokemon.winner = true;
+        } else {
+            vm.score.enemy++;
+            enemyPokemon.winner = true;
+        }
+    }
+
+    function restartGame() {
+        vm.disableSearch = true;
+
+        vm.listPokemons = [];
+        vm.textFilter = '';
+        vm.pokemon = {};
+
+        vm.gameState = 'search';
+        vm.battleState = 'battle';
+
+        vm.playerPokemons = [];
+        vm.enemyPokemons = [];
+
+        vm.battleButtonValue = 'Battle!';
+
+        vm.score = {
+            player : 0,
+            enemy : 0
+        }
+        vm.message = {
+            player : '',
+            enemy : ''
+        }
+
+        getPokemons();
     }
 
     function isValid(pokemon, list) {

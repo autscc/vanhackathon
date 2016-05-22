@@ -1,84 +1,3 @@
-<style media="screen">
-    body {
-        min-height: 100%;
-        min-width : 100%;
-        top:0;
-        bottom:0;
-        position:absolute;
-    }
-
-    .searchArea {
-        height: 50%;
-        width : 100%;
-        top:0;
-        bottom : 0;
-        position : absolute;
-		background-image : url("http://orig01.deviantart.net/ada4/f/2012/030/7/f/battle_bases_01bg_hd_by_xalien95-d4o49yb.png");
-		background-repeat : no-repeat;
-		background-position : 0% 20%;
-    }
-
-    .arenaArea {
-        height : 50%;
-        width : 100%;
-        bottom:0;
-        position:absolute;
-		background-color : #8CEB8D;
-		background-image : url("http://vignette3.wikia.nocookie.net/pokemon/images/4/4c/Pokeball.png/revision/latest?cb=20160208145309&path-prefix=pt");
-		background-repeat : no-repeat;
-		background-position : 50% 50%;
-    }
-
-    #inputSearchPokemon {
-        margin : 0 auto;
-    }
-
-	#listSearchPokemon {
-		position : absolute;
-		width : 90%;
-		margin : 0 auto;
-		cursor : pointer;
-		z-index : 999;
-	}
-
-    #buttonSearchPokemon {
-        margin-left : 20px;
-    }
-
-    #boxSelectedPokemons {
-        margin-top : 50px;
-    }
-
-    .boxPokemon {
-        width : 25%;
-		padding-bottom : 20px;
-		border-radius : 2px;
-    }
-
-    .boxPokemonBattle {
-		margin-top : 15px;
-    }
-
-	.playerPokemons {
-		background-color : #3399FF;
-		color : #FFF;
-	}
-
-	.enemyPokemons {
-		background-color : #FF0000;
-		color : #FFF;
-	}
-
-	.notSelected {
-		background-color : #000;
-		color : #FFF;
-	}
-
-    .winner {
-        border : 2px solid green;
-    }
-</style>
-
 <div class = "container-fluid" ng-controller = "HomeController as vm" ng-init = "vm.init()">
     <div class = "row searchArea">
 		<div ng-show = "vm.gameState === 'search'">
@@ -156,18 +75,27 @@
 		<div ng-show = "vm.gameState === 'battle'">
 
 	        <div class="col-md-12">
-				<div class="col-md-6" style = "text-align : center; margin-top : 20px;">
-					0
+				<div class="col-md-6" style = "text-align : center; margin-top : 20px; ">
+					{{vm.score.player}}
 				</div>
 				<div class="col-md-6" style = "text-align : center; margin-top : 20px;">
-					0
+                    {{vm.score.enemy}}
+				</div>
+	        </div>
+
+	        <div class="col-md-12">
+				<div class="col-md-6" style = "text-align : center; margin-top : 10px;">
+					<h3>{{vm.message.player}}</h3>
+				</div>
+				<div class="col-md-6" style = "text-align : center; margin-top : 20px;">
+                    <h3>{{vm.message.enemy}}</h3>
 				</div>
 	        </div>
 
 			<div class="col-md-12">
 				<div class="col-md-6">
 					<div class="col-md-6 col-md-offset-3">
-						<div class="media boxPokemonBattle playerPokemons">
+						<div class="media boxPokemonBattle playerPokemons" ng-class = "{'winner' : vm.playerPokemons[0].winner}">
 							<div class="media-left">
 								<img class = "media-object" src="{{vm.playerPokemons[0].sprites.back_default}}" />
 							</div>
@@ -176,7 +104,7 @@
 								<span>{{vm.playerPokemons[0].types[0].type.name}}</span>
 							</div>
 	                    </div>
-						<div class="media boxPokemonBattle playerPokemons">
+						<div class="media boxPokemonBattle playerPokemons" ng-class = "{'winner' : vm.playerPokemons[1].winner}">
 							<div class="media-left">
 								<img class = "media-object" src="{{vm.playerPokemons[1].sprites.back_default}}" />
 							</div>
@@ -185,7 +113,7 @@
 								<span>{{vm.playerPokemons[1].types[0].type.name}}</span>
 							</div>
 	                    </div>
-						<div class="media boxPokemonBattle playerPokemons">
+						<div class="media boxPokemonBattle playerPokemons" ng-class = "{'winner' : vm.playerPokemons[2].winner}">
 							<div class="media-left">
 								<img class = "media-object" src="{{vm.playerPokemons[2].sprites.back_default}}" />
 							</div>
@@ -199,7 +127,7 @@
 
 				<div class="col-md-6">
 					<div class="col-md-6 col-md-offset-3">
-						<div class="media boxPokemonBattle enemyPokemons">
+						<div class="media boxPokemonBattle enemyPokemons" ng-class = "{'winner' : vm.enemyPokemons[0].winner}">
 							<div class="media-left">
 								<img class = "media-object" src="{{vm.enemyPokemons[0].sprites.back_default}}" />
 							</div>
@@ -208,7 +136,7 @@
 								<span>{{vm.enemyPokemons[0].types[0].type.name}}</span>
 							</div>
 	                    </div>
-						<div class="media boxPokemonBattle enemyPokemons">
+						<div class="media boxPokemonBattle enemyPokemons" ng-class = "{'winner' : vm.enemyPokemons[1].winner}">
 							<div class="media-left">
 								<img class = "media-object" src="{{vm.enemyPokemons[1].sprites.back_default}}" />
 							</div>
@@ -217,7 +145,7 @@
 								<span>{{vm.enemyPokemons[1].types[0].type.name}}</span>
 							</div>
 	                    </div>
-						<div class="media boxPokemonBattle enemyPokemons">
+						<div class="media boxPokemonBattle enemyPokemons" ng-class = "{'winner' : vm.enemyPokemons[2].winner}">
 							<div class="media-left">
 								<img class = "media-object" src="{{vm.enemyPokemons[2].sprites.back_default}}" />
 							</div>
@@ -230,8 +158,8 @@
 				</div>
 			</div>
 
-			<div class="col-md-12" style = "margin-top : 20px;">
-				<button type="button" class="btn btn-success center-block">Battle!</button>
+			<div class="col-md-12" style = "margin-top : 20px; margin-bottom : 10px;">
+				<button type="button" class="btn btn-success center-block" ng-click = "vm.battleButtonAction()">{{vm.battleButtonValue}}</button>
 			</div>
 
 		</div>
